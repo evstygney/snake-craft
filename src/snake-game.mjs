@@ -39,6 +39,15 @@ export function setDirection(state, nextDirection) {
     return state;
   }
 
+  if (state.status === 'ready') {
+    return {
+      ...state,
+      direction: nextDirection,
+      pendingDirection: nextDirection,
+      status: 'running',
+    };
+  }
+
   const blockedDirection = OPPOSITES[state.direction];
   if (nextDirection === blockedDirection && state.snake.length > 1) {
     return state;
@@ -47,7 +56,7 @@ export function setDirection(state, nextDirection) {
   return {
     ...state,
     pendingDirection: nextDirection,
-    status: state.status === 'ready' ? 'running' : state.status,
+    status: state.status,
   };
 }
 

@@ -53,6 +53,15 @@ test('first direction starts the game', () => {
   assert.equal(next.pendingDirection, 'up');
 });
 
+test('new game accepts opposite direction as the first move', () => {
+  const initial = restartGame(8);
+  const next = setDirection(initial, 'left');
+
+  assert.equal(next.status, 'running');
+  assert.equal(next.direction, 'left');
+  assert.equal(next.pendingDirection, 'left');
+});
+
 test('wall collision ends the game', () => {
   const state = {
     ...restartGame(6),
