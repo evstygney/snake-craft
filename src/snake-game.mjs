@@ -47,11 +47,12 @@ export function setDirection(state, nextDirection) {
   return {
     ...state,
     pendingDirection: nextDirection,
+    status: state.status === 'ready' ? 'running' : state.status,
   };
 }
 
 export function togglePause(state) {
-  if (state.status === 'game-over') {
+  if (state.status === 'game-over' || state.status === 'ready') {
     return state;
   }
 
@@ -60,10 +61,7 @@ export function togglePause(state) {
 }
 
 export function restartGame(gridSize = GRID_SIZE) {
-  return {
-    ...createInitialState(gridSize),
-    status: 'running',
-  };
+  return createInitialState(gridSize);
 }
 
 export function stepGame(state) {

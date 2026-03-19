@@ -23,7 +23,6 @@ const padButtons = document.querySelectorAll('[data-dir]');
 
 let state = {
   ...createInitialState(GRID_SIZE),
-  status: 'running',
 };
 let bestScore = readBestScore();
 
@@ -72,7 +71,11 @@ restartButton.addEventListener('click', () => {
 });
 
 overlayAction.addEventListener('click', () => {
-  state = state.status === 'game-over' ? restartGame(GRID_SIZE) : togglePause(state);
+  if (state.status === 'game-over') {
+    state = restartGame(GRID_SIZE);
+  } else if (state.status === 'paused') {
+    state = togglePause(state);
+  }
   renderState();
 });
 
@@ -127,12 +130,22 @@ function renderState() {
   scoreValue.textContent = String(state.score);
   bestScoreValue.textContent = String(bestScore);
   pauseButton.textContent = state.status === 'paused' ? 'Продолжить' : 'Пауза';
+  pauseButton.disabled = state.status === 'ready' || state.status === 'game-over';
   renderOverlay();
 }
 
 function renderOverlay() {
+  if (state.status === 'ready') {
+    overlay.hidden = false;
+    overlayTitle.textContent = 'Новая игра';
+    overlayText.textContent = 'Нажмите стрелку, WASD или экранную кнопку, чтобы начать движение.';
+    overlayAction.hidden = true;
+    return;
+  }
+
   if (state.status === 'paused') {
     overlay.hidden = false;
+    overlayAction.hidden = false;
     overlayTitle.textContent = 'Пауза';
     overlayText.textContent = 'Нажмите пробел или кнопку ниже, чтобы продолжить игру.';
     overlayAction.textContent = 'Продолжить';
@@ -141,6 +154,7 @@ function renderOverlay() {
 
   if (state.status === 'game-over') {
     overlay.hidden = false;
+    overlayAction.hidden = false;
     overlayTitle.textContent = 'Игра окончена';
     overlayText.textContent = `Ваш счет: ${state.score}. Нажмите R или кнопку ниже, чтобы начать заново.`;
     overlayAction.textContent = 'Играть снова';

@@ -11,7 +11,7 @@ import {
 
 test('snake moves one cell in the current direction', () => {
   const initial = restartGame(8);
-  const next = stepGame(initial);
+  const next = stepGame(setDirection(initial, 'right'));
 
   assert.deepEqual(next.snake[0], { x: initial.snake[0].x + 1, y: initial.snake[0].y });
   assert.equal(next.snake.length, initial.snake.length);
@@ -21,7 +21,7 @@ test('snake moves one cell in the current direction', () => {
 test('snake grows and increases score when it eats food', () => {
   const initial = restartGame(8);
   const foodAhead = { x: initial.snake[0].x + 1, y: initial.snake[0].y };
-  const next = stepGame({ ...initial, food: foodAhead });
+  const next = stepGame({ ...setDirection(initial, 'right'), food: foodAhead });
 
   assert.equal(next.score, 1);
   assert.equal(next.snake.length, initial.snake.length + 1);
@@ -30,10 +30,27 @@ test('snake grows and increases score when it eats food', () => {
 });
 
 test('reverse direction is ignored', () => {
-  const initial = restartGame(8);
+  const initial = setDirection(restartGame(8), 'right');
   const next = setDirection(initial, 'left');
 
   assert.equal(next.pendingDirection, initial.pendingDirection);
+});
+
+test('new game waits for a direction before moving', () => {
+  const initial = restartGame(8);
+  const next = stepGame(initial);
+
+  assert.equal(initial.status, 'ready');
+  assert.equal(next.status, 'ready');
+  assert.deepEqual(next.snake, initial.snake);
+});
+
+test('first direction starts the game', () => {
+  const initial = restartGame(8);
+  const next = setDirection(initial, 'up');
+
+  assert.equal(next.status, 'running');
+  assert.equal(next.pendingDirection, 'up');
 });
 
 test('wall collision ends the game', () => {
@@ -42,6 +59,7 @@ test('wall collision ends the game', () => {
     snake: [{ x: 5, y: 2 }, { x: 4, y: 2 }, { x: 3, y: 2 }],
     direction: 'right',
     pendingDirection: 'right',
+    status: 'running',
   };
   const next = stepGame(state);
 
@@ -61,6 +79,7 @@ test('self collision ends the game', () => {
     ],
     direction: 'up',
     pendingDirection: 'left',
+    status: 'running',
   };
   const next = stepGame(state);
 
