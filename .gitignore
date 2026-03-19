@@ -1,0 +1,12 @@
+﻿# OS / editor
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# Logs
+*.log
