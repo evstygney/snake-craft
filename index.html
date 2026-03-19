@@ -1,0 +1,70 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake Craft</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="game-shell" aria-label="Игра Змейка">
+      <header class="panel top-panel">
+        <div>
+          <p class="eyebrow">Классическая аркада</p>
+          <h1>Змейка: пиксельный мир</h1>
+          <p class="subtitle">Собирайте яблоки, растите и не врезайтесь в границы или в себя.</p>
+        </div>
+        <div class="scoreboard" aria-live="polite">
+          <div class="score-card">
+            <span class="score-label">Счет</span>
+            <strong id="score">0</strong>
+          </div>
+          <div class="score-card">
+            <span class="score-label">Лучший</span>
+            <strong id="best-score">0</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="play-area">
+        <div class="board-frame">
+          <div id="board" class="board" role="grid" aria-label="Поле игры"></div>
+          <div id="overlay" class="overlay" hidden>
+            <div class="overlay-card">
+              <p id="overlay-title" class="overlay-title">Пауза</p>
+              <p id="overlay-text">Нажмите пробел или кнопку ниже, чтобы продолжить.</p>
+              <button id="overlay-action" class="primary-button" type="button">Продолжить</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="panel side-panel">
+          <div class="controls-block">
+            <h2>Управление</h2>
+            <p>Стрелки или WASD</p>
+            <p>Пробел: пауза</p>
+            <p>R: рестарт</p>
+          </div>
+
+          <div class="button-row">
+            <button id="pause-button" class="secondary-button" type="button">Пауза</button>
+            <button id="restart-button" class="primary-button" type="button">Заново</button>
+          </div>
+
+          <div class="controls-pad" aria-label="Экранные кнопки">
+            <button data-dir="up" class="pad-button" type="button">▲</button>
+            <div class="pad-middle">
+              <button data-dir="left" class="pad-button" type="button">◀</button>
+              <button data-dir="down" class="pad-button" type="button">▼</button>
+              <button data-dir="right" class="pad-button" type="button">▶</button>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </section>
+  </main>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
