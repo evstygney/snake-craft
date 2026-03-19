@@ -18,6 +18,12 @@ test('snake moves one cell in the current direction', () => {
   assert.equal(next.score, 0);
 });
 
+test('new game starts with a single-segment snake', () => {
+  const initial = restartGame(8);
+
+  assert.equal(initial.snake.length, 1);
+});
+
 test('snake grows and increases score when it eats food', () => {
   const initial = restartGame(8);
   const foodAhead = { x: initial.snake[0].x + 1, y: initial.snake[0].y };

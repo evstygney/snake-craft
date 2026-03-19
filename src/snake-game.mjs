@@ -17,11 +17,7 @@ const OPPOSITES = {
 
 export function createInitialState(gridSize = GRID_SIZE) {
   const center = Math.floor(gridSize / 2);
-  const snake = [
-    { x: center, y: center },
-    { x: center - 1, y: center },
-    { x: center - 2, y: center },
-  ];
+  const snake = [{ x: center, y: center }];
 
   return {
     gridSize,
